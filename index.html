@@ -137,25 +137,70 @@
     <h1>Dra. Byanca Aires</h1>
     <p class="bio">Biomédica CRBM 24200 · Estética e Camuflagem · São Luís, MA</p>
 
-    <div class="links">
-      <a class="link-btn primary" href="https://drabyancaaires.com.br" target="_blank" rel="noopener noreferrer">
-        <span class="link-icon">🌐</span>
-        <span class="link-text">
-          <strong>Site oficial</strong>
-          <span>Conheça a clínica e agende sua avaliação</span>
-        </span>
-      </a>
-
-      <a class="link-btn" href="https://wa.me/5598981109411?text=Ol%C3%A1%21%20Vim%20pelo%20Instagram%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o." target="_blank" rel="noopener noreferrer">
-        <span class="link-icon">💬</span>
-        <span class="link-text">
-          <strong>Agendar pelo WhatsApp</strong>
-          <span>Fale direto com a equipe</span>
-        </span>
-      </a>
-    </div>
+    <div class="links" id="links"></div>
 
     <footer>&copy; Dra. Byanca Aires</footer>
   </main>
+
+  <script>
+    // Cada item só aparece na página quando "active: true".
+    // Pra publicar um bloco novo (curso, LP de procedimentos, blog...),
+    // basta adicionar um objeto aqui com active: true — não precisa mexer em HTML/CSS.
+    var LINKS = [
+      {
+        active: true,
+        primary: true,
+        icon: "🌐",
+        title: "Site oficial",
+        desc: "Conheça a clínica e agende sua avaliação",
+        href: "https://drabyancaaires.com.br"
+      },
+      {
+        active: true,
+        primary: false,
+        icon: "💬",
+        title: "Agendar pelo WhatsApp",
+        desc: "Fale direto com a equipe",
+        href: "https://wa.me/5598981109411?text=Ol%C3%A1%21%20Vim%20pelo%20Instagram%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o."
+      },
+      {
+        active: false, // ainda não existe publicamente — LP de procedimentos
+        primary: false,
+        icon: "✨",
+        title: "Estrias e cicatrizes",
+        desc: "Método Dermo Strill®",
+        href: "https://procedimentos.drabyancaaires.com.br"
+      },
+      {
+        active: false, // ainda não existe — curso em Imperatriz/São Luís
+        primary: false,
+        icon: "🎓",
+        title: "Cursos",
+        desc: "Imperatriz e São Luís",
+        href: "#"
+      },
+      {
+        active: false, // ainda não existe — blog
+        primary: false,
+        icon: "📝",
+        title: "Blog",
+        desc: "Conteúdo sobre estética e cuidado com a pele",
+        href: "#"
+      }
+    ];
+
+    var container = document.getElementById("links");
+    LINKS.filter(function (l) { return l.active; }).forEach(function (l) {
+      var a = document.createElement("a");
+      a.className = "link-btn" + (l.primary ? " primary" : "");
+      a.href = l.href;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.innerHTML =
+        '<span class="link-icon">' + l.icon + '</span>' +
+        '<span class="link-text"><strong>' + l.title + '</strong><span>' + l.desc + '</span></span>';
+      container.appendChild(a);
+    });
+  </script>
 </body>
 </html>
