@@ -8,6 +8,6 @@
   "assets": {
     "directory": "."
   },
-  "workers_dev": false,
+  "workers_dev": true,
   "preview_urls": false
 }

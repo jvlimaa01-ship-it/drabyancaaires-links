@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #fbf6f1;
@@ -21,108 +21,239 @@
     --border: rgba(138, 90, 69, 0.18);
   }
   * { box-sizing: border-box; }
+  html, body { height: 100%; }
   body {
     margin: 0;
     font-family: "Poppins", sans-serif;
-    background: linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
     color: var(--brown-deep);
     min-height: 100vh;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(138,90,69,0.10) 0%, rgba(138,90,69,0) 45%),
+      radial-gradient(circle at 100% 30%, rgba(138,90,69,0.08) 0%, rgba(138,90,69,0) 40%),
+      linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    background-attachment: fixed;
     display: flex;
     justify-content: center;
-    padding: 48px 20px 64px;
+    padding: 24px 16px 40px;
   }
   main {
     width: 100%;
-    max-width: 420px;
-    text-align: center;
+    max-width: 480px;
   }
-  .avatar {
-    width: 104px;
-    height: 104px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin: 0 auto 18px;
-    border: 3px solid #fff;
-    box-shadow: 0 8px 24px rgba(58, 42, 32, 0.18);
+
+  /* Animações de entrada ao rolar */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
-  h1 {
-    font-family: Georgia, "Times New Roman", serif;
-    font-style: italic;
-    font-size: 1.5rem;
-    margin: 0 0 6px;
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
   }
-  .bio {
-    font-size: 0.92rem;
-    color: var(--brown-soft);
-    line-height: 1.5;
-    margin: 0 0 32px;
+
+  /* Desktop: hero fixo à esquerda, cards em coluna à direita, tudo em escala maior */
+  @media (min-width: 860px) {
+    body { padding: 56px 32px 64px; }
+    main {
+      max-width: 1240px;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      gap: 56px;
+      align-items: start;
+    }
+    .topbar { grid-column: 1 / -1; margin-bottom: 36px; }
+    .wordmark .script { font-size: 2.4rem; }
+    .wordmark .caps { font-size: 0.78rem; }
+    .hero-card {
+      position: sticky;
+      top: 40px;
+      margin-bottom: 0;
+      aspect-ratio: auto;
+      height: 958px; /* = 4 cards de 220px + 3 gaps de 26px, mesma altura da coluna de cards */
+    }
+    .hero-card-content { padding: 44px 36px 40px; }
+    .hero-eyebrow { font-size: 1.5rem; }
+    .hero-headline { font-size: 3.8rem; }
+    .hero-sub { font-size: 1.1rem; margin-bottom: 26px; }
+    .socials a { width: 44px; height: 44px; font-size: 0.9rem; }
+    .links { gap: 26px; }
+    .link-card { min-height: 220px; height: 220px; border-radius: 30px; }
+    .link-card-text { padding: 36px 34px; }
+    .link-card-text h3 { font-size: 1.85rem; margin-bottom: 12px; }
+    .link-card-text p { font-size: 1.05rem; margin-bottom: 20px; }
+    .link-card-cta { font-size: 1rem; }
   }
-  .links {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .link-btn {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px 18px;
-    text-decoration: none;
-    color: var(--brown-deep);
-    font-weight: 500;
-    font-size: 0.98rem;
-    text-align: left;
-    box-shadow: 0 3px 10px rgba(58, 42, 32, 0.06);
-    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-  }
-  .link-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(58, 42, 32, 0.14);
-    border-color: var(--accent);
-  }
-  .link-btn.primary {
-    background: var(--accent);
-    color: #fff;
-    border-color: var(--accent);
-  }
-  .link-btn.primary:hover {
-    background: var(--accent-dark);
-  }
-  .link-icon {
-    width: 34px;
-    height: 34px;
-    flex: 0 0 34px;
+
+  /* Topo: logo tipográfico + menu/tema (visual, sem função) */
+  .topbar {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background: var(--cream-2);
+    margin-bottom: 18px;
+  }
+  .wordmark { text-align: center; }
+  .wordmark .script {
+    display: block;
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.7rem;
+    color: var(--accent-dark);
+    line-height: 1;
+  }
+  .wordmark .caps {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.62rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--brown-soft);
+  }
+
+  /* Hero: card grande com foto, headline editorial e social */
+  .hero-card {
+    position: relative;
+    border-radius: 28px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    background-size: cover;
+    background-position: center 18%;
+    box-shadow: 0 16px 36px rgba(58, 42, 32, 0.24);
+    margin-bottom: 18px;
+  }
+  .hero-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(58,42,32,0) 38%, rgba(58,42,32,0.9) 100%);
+  }
+  .hero-card-content {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    padding: 28px 24px 26px;
+    z-index: 1;
+    color: #fff;
+    text-align: center;
+  }
+  .hero-eyebrow {
     font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
   }
-  .link-btn.primary .link-icon {
-    background: rgba(255,255,255,0.2);
+  .hero-headline {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 600;
+    font-size: 2.6rem;
+    line-height: 1;
+    margin: 2px 0 6px;
   }
-  .link-text strong {
-    display: block;
-    font-size: 0.98rem;
+  .hero-sub {
+    font-size: 0.92rem;
+    opacity: 0.92;
+    margin: 0 0 18px;
+    line-height: 1.4;
   }
-  .link-text span {
-    display: block;
-    font-size: 0.78rem;
-    opacity: 0.75;
-    margin-top: 2px;
+  .socials {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
   }
+  .socials a {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.16);
+    border: 1px solid rgba(255,255,255,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    backdrop-filter: blur(4px);
+  }
+  .socials a:hover { background: rgba(255,255,255,0.28); }
+
+  /* Pilha de cards, um destino por bloco, full width */
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .link-card {
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--brown-deep);
+    background: #fff;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 22px rgba(58, 42, 32, 0.1);
+    display: flex;
+    min-height: 168px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .link-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(58, 42, 32, 0.16);
+  }
+  .link-card-text {
+    position: relative;
+    z-index: 1;
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+  }
+  .link-card-text h3 {
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.35rem;
+    margin: 0 0 8px;
+    color: var(--accent-dark);
+  }
+  .link-card-text p {
+    font-size: 0.86rem;
+    line-height: 1.5;
+    margin: 0 0 14px;
+    color: var(--brown-soft);
+  }
+  .link-card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .link-card-photo {
+    width: 40%;
+    background-size: cover;
+    background-position: center 15%;
+    flex: 0 0 40%;
+  }
+  .link-card-photo-empty {
+    background: linear-gradient(135deg, var(--cream-2), var(--border));
+  }
+  .link-card.is-soon {
+    opacity: 0.72;
+    cursor: default;
+  }
+  .link-card.is-soon .link-card-cta {
+    color: var(--brown-soft);
+  }
+
   footer {
-    margin-top: 40px;
+    margin-top: 32px;
+    text-align: center;
     font-size: 0.72rem;
     color: var(--brown-soft);
     opacity: 0.7;
@@ -131,11 +262,23 @@
 </head>
 <body>
   <main>
-    <div class="avatar">
-      <img src="img/perfil.jpg" alt="Dra. Byanca Aires" />
+    <div class="topbar">
+      <div class="wordmark">
+        <span class="script">Byanca Aires</span>
+        <span class="caps">Estética &amp; Camuflagem · CRBM 24200</span>
+      </div>
     </div>
-    <h1>Dra. Byanca Aires</h1>
-    <p class="bio">Biomédica CRBM 24200 · Estética e Camuflagem · São Luís, MA</p>
+
+    <div class="hero-card reveal" style="background-image:url('img/bg/bg-3.jpg')">
+      <div class="hero-card-content">
+        <p class="hero-eyebrow">Devolva sua</p>
+        <p class="hero-headline">autoestima</p>
+        <p class="hero-sub">Método Dermo Strill® para estrias e cicatrizes · São Luís, MA</p>
+        <div class="socials">
+          <a href="https://www.instagram.com/drabyancaaires" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+        </div>
+      </div>
+    </div>
 
     <div class="links" id="links"></div>
 
@@ -149,58 +292,70 @@
     var LINKS = [
       {
         active: true,
-        primary: true,
-        icon: "🌐",
+        photo: "img/bg/bg-2.jpg",
+        title: "Agendar consulta",
+        desc: "Fale direto com a equipe pelo WhatsApp e marque seu horário.",
+        cta: "Chamar no WhatsApp",
+        href: "https://wa.me/5598981109411?text=Ol%C3%A1%21%20Vim%20pelo%20Instagram%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o."
+      },
+      {
+        active: true,
+        photo: "img/bg/bg-1.jpg",
         title: "Site oficial",
-        desc: "Conheça a clínica e agende sua avaliação",
+        desc: "Conheça a clínica, a Dra. Byanca e agende sua avaliação.",
+        cta: "Visitar site",
         href: "https://drabyancaaires.com.br"
       },
       {
         active: true,
-        primary: false,
-        icon: "💬",
-        title: "Agendar pelo WhatsApp",
-        desc: "Fale direto com a equipe",
-        href: "https://wa.me/5598981109411?text=Ol%C3%A1%21%20Vim%20pelo%20Instagram%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o."
-      },
-      {
-        active: false, // ainda não existe publicamente — LP de procedimentos
-        primary: false,
-        icon: "✨",
-        title: "Estrias e cicatrizes",
-        desc: "Método Dermo Strill®",
-        href: "https://procedimentos.drabyancaaires.com.br"
-      },
-      {
-        active: false, // ainda não existe — curso em Imperatriz/São Luís
-        primary: false,
-        icon: "🎓",
-        title: "Cursos",
-        desc: "Imperatriz e São Luís",
+        soon: true, // curso ainda não tem data/conteúdo definido — card em "em breve"
+        photo: null,
+        title: "Curso em São Luís",
+        desc: "Formação com a Dra. Byanca Aires.",
+        cta: "Em breve",
         href: "#"
       },
       {
-        active: false, // ainda não existe — blog
-        primary: false,
-        icon: "📝",
-        title: "Blog",
-        desc: "Conteúdo sobre estética e cuidado com a pele",
+        active: true,
+        soon: true, // curso ainda não tem data/conteúdo definido — card em "em breve"
+        photo: null,
+        title: "Curso em Imperatriz",
+        desc: "Formação com a Dra. Byanca Aires.",
+        cta: "Em breve",
         href: "#"
       }
     ];
 
     var container = document.getElementById("links");
-    LINKS.filter(function (l) { return l.active; }).forEach(function (l) {
+    LINKS.filter(function (l) { return l.active; }).forEach(function (l, i) {
       var a = document.createElement("a");
-      a.className = "link-btn" + (l.primary ? " primary" : "");
+      a.className = "link-card reveal" + (l.soon ? " is-soon" : "");
+      a.style.transitionDelay = (i * 0.08) + "s";
       a.href = l.href;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
+      if (l.soon) { a.addEventListener("click", function (e) { e.preventDefault(); }); }
       a.innerHTML =
-        '<span class="link-icon">' + l.icon + '</span>' +
-        '<span class="link-text"><strong>' + l.title + '</strong><span>' + l.desc + '</span></span>';
+        '<span class="link-card-text">' +
+          '<h3>' + l.title + '</h3>' +
+          '<p>' + l.desc + '</p>' +
+          '<span class="link-card-cta">' + l.cta + (l.soon ? '' : ' &rarr;') + '</span>' +
+        '</span>' +
+        (l.photo ? '<span class="link-card-photo" style="background-image:url(\'' + l.photo + '\')"></span>' : '<span class="link-card-photo link-card-photo-empty"></span>');
       container.appendChild(a);
     });
+
+    // Ativa as animações de entrada conforme os elementos entram na tela
+    var revealEls = document.querySelectorAll(".reveal");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+    revealEls.forEach(function (el) { io.observe(el); });
   </script>
 </body>
 </html>
