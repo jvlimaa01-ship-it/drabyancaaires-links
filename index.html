@@ -337,6 +337,7 @@ function loadGTM(){
     opacity: 0.7;
   }
 
+  body.cookie-banner-open main { padding-bottom: 96px; }
   .cookie-banner {
     position: fixed;
     left: 0; right: 0; bottom: 0;
@@ -515,15 +516,17 @@ function loadGTM(){
   var rejectBtn = document.getElementById('cookie-reject');
   if (!banner) return;
   var consent = localStorage.getItem('cookie_consent');
-  if (!consent) { banner.hidden = false; }
+  if (!consent) { banner.hidden = false; document.body.classList.add('cookie-banner-open'); }
   acceptBtn.addEventListener('click', function () {
     localStorage.setItem('cookie_consent', 'accepted');
     banner.hidden = true;
+    document.body.classList.remove('cookie-banner-open');
     if (typeof loadGTM === 'function') { loadGTM(); }
   });
   rejectBtn.addEventListener('click', function () {
     localStorage.setItem('cookie_consent', 'rejected');
     banner.hidden = true;
+    document.body.classList.remove('cookie-banner-open');
   });
 })();
 </script>
