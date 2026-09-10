@@ -235,6 +235,7 @@
     color: var(--accent);
   }
   .link-card-photo {
+    position: relative;
     width: 40%;
     background-size: cover;
     background-position: center 15%;
@@ -243,9 +244,34 @@
   .link-card-photo-empty {
     background: linear-gradient(135deg, var(--cream-2), var(--border));
   }
+  .link-card-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: #000;
+    object-position: center center;
+    display: block;
+  }
   .link-card.is-soon {
-    opacity: 0.72;
     cursor: default;
+  }
+  .link-card.is-soon .link-card-text {
+    opacity: 0.75;
+  }
+  .link-card.is-soon .link-card-photo::after {
+    content: "Em breve";
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: rgba(58, 42, 32, 0.72);
+    backdrop-filter: blur(3px);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
   .link-card.is-soon .link-card-cta {
     color: var(--brown-soft);
@@ -292,7 +318,8 @@
     var LINKS = [
       {
         active: true,
-        photo: "img/bg/bg-2.jpg",
+        photo: "img/bg/bg-consulta.jpg",
+        photoPos: "78% 52%",
         title: "Agendar consulta",
         desc: "Fale direto com a equipe pelo WhatsApp e marque seu horário.",
         cta: "Chamar no WhatsApp",
@@ -300,7 +327,8 @@
       },
       {
         active: true,
-        photo: "img/bg/bg-1.jpg",
+        photo: "img/bg/bg-site.jpg",
+        photoPos: "63% 27%",
         title: "Site oficial",
         desc: "Conheça a clínica, a Dra. Byanca e agende sua avaliação.",
         cta: "Visitar site",
@@ -309,7 +337,7 @@
       {
         active: true,
         soon: true, // curso ainda não tem data/conteúdo definido — card em "em breve"
-        photo: null,
+        photo: "img/bg/bg-curso-slz.jpg",
         title: "Curso em São Luís",
         desc: "Formação com a Dra. Byanca Aires.",
         cta: "Em breve",
@@ -318,7 +346,8 @@
       {
         active: true,
         soon: true, // curso ainda não tem data/conteúdo definido — card em "em breve"
-        photo: null,
+        photo: "img/bg/bg-curso-imp.jpg",
+        photoPos: "70% 30%",
         title: "Curso em Imperatriz",
         desc: "Formação com a Dra. Byanca Aires.",
         cta: "Em breve",
@@ -341,7 +370,9 @@
           '<p>' + l.desc + '</p>' +
           '<span class="link-card-cta">' + l.cta + (l.soon ? '' : ' &rarr;') + '</span>' +
         '</span>' +
-        (l.photo ? '<span class="link-card-photo" style="background-image:url(\'' + l.photo + '\')"></span>' : '<span class="link-card-photo link-card-photo-empty"></span>');
+        (l.video
+          ? '<span class="link-card-photo"><video class="link-card-video" src="' + l.video + '" poster="' + (l.photo || '') + '" autoplay muted loop playsinline preload="metadata"></video></span>'
+          : (l.photo ? '<span class="link-card-photo" style="background-image:url(\'' + l.photo + '\');background-position:' + (l.photoPos || 'center 15%') + '"></span>' : '<span class="link-card-photo link-card-photo-empty"></span>'));
       container.appendChild(a);
     });
 
