@@ -8,6 +8,14 @@
 <!-- Google Tag Manager (carrega somente apos consentimento de cookies) -->
 <script>
 window.dataLayer = window.dataLayer || [];
+function gtag(){ window.dataLayer.push(arguments); }
+// Sinal de consentimento (Consent Mode) - comeca negado ate o usuario aceitar
+gtag('consent', 'default', {
+  'ad_storage': 'denied',
+  'analytics_storage': 'denied',
+  'ad_user_data': 'denied',
+  'ad_personalization': 'denied'
+});
 function loadGTM(){
   if (window.__gtmLoaded) return;
   window.__gtmLoaded = true;
@@ -19,7 +27,15 @@ function loadGTM(){
 }
 (function(){
   var consent = localStorage.getItem('cookie_consent');
-  if (consent === 'accepted') { loadGTM(); }
+  if (consent === 'accepted') {
+    gtag('consent', 'update', {
+      'ad_storage': 'granted',
+      'analytics_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'granted'
+    });
+    loadGTM();
+  }
 })();
 </script>
 <!-- End Google Tag Manager -->
@@ -521,6 +537,14 @@ function loadGTM(){
     localStorage.setItem('cookie_consent', 'accepted');
     banner.hidden = true;
     document.body.classList.remove('cookie-banner-open');
+    if (typeof gtag === 'function') {
+      gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'analytics_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted'
+      });
+    }
     if (typeof loadGTM === 'function') { loadGTM(); }
   });
   rejectBtn.addEventListener('click', function () {
