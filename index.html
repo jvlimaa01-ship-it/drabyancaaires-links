@@ -5,6 +5,24 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dra. Byanca Aires</title>
 <meta name="robots" content="noindex, nofollow" />
+<!-- Google Tag Manager (carrega somente apos consentimento de cookies) -->
+<script>
+window.dataLayer = window.dataLayer || [];
+function loadGTM(){
+  if (window.__gtmLoaded) return;
+  window.__gtmLoaded = true;
+  (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-TPTJ4R4B');
+}
+(function(){
+  var consent = localStorage.getItem('cookie_consent');
+  if (consent === 'accepted') { loadGTM(); }
+})();
+</script>
+<!-- End Google Tag Manager -->
 <link rel="icon" href="favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -318,9 +336,67 @@
     color: var(--brown-soft);
     opacity: 0.7;
   }
+
+  .cookie-banner {
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 9999;
+    background: var(--brown-deep);
+    color: var(--cream);
+    padding: 16px 0;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+  }
+  .cookie-banner-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+  .cookie-banner p {
+    margin: 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--cream);
+    flex: 1 1 260px;
+  }
+  .cookie-banner-actions { display: flex; align-items: center; gap: 16px; flex: 0 0 auto; }
+  .cookie-banner #cookie-accept {
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.82rem;
+    background: #fff;
+    color: var(--brown-deep);
+    border: none;
+    cursor: pointer;
+  }
+  .cookie-reject-link {
+    background: none; border: none; padding: 0;
+    color: rgba(251,246,241,0.5);
+    font-size: 0.72rem;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .cookie-reject-link:hover, .cookie-reject-link:focus-visible {
+    color: rgba(251,246,241,0.85);
+    text-decoration: underline;
+  }
 </style>
 </head>
 <body>
+  <div id="cookie-banner" class="cookie-banner" role="dialog" aria-live="polite" aria-label="Aviso de cookies" hidden>
+    <div class="cookie-banner-inner">
+      <p>Usamos cookies para melhorar sua experiencia e medir o desempenho da pagina.</p>
+      <div class="cookie-banner-actions">
+        <button type="button" id="cookie-accept">Entendi</button>
+        <button type="button" id="cookie-reject" class="cookie-reject-link">Recusar</button>
+      </div>
+    </div>
+  </div>
   <main>
     <div class="topbar">
       <div class="wordmark">
@@ -357,7 +433,8 @@
         title: "Agendar consulta",
         desc: "Fale direto com a equipe pelo WhatsApp e marque seu horário.",
         cta: "Chamar no WhatsApp",
-        href: "https://wa.me/5598981109411?text=Ol%C3%A1%21%20Vim%20pelo%20Instagram%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o."
+        href: "https://wa.me/5598981109411?text=Ol%C3%A1%21%20Vim%20pelo%20Instagram%20e%20quero%20agendar%20uma%20avalia%C3%A7%C3%A3o.",
+        trackEvent: "contato_whatsapp"
       },
       {
         active: true,
@@ -366,7 +443,8 @@
         title: "Site oficial",
         desc: "Conheça a clínica, a Dra. Byanca e agende sua avaliação.",
         cta: "Visitar site",
-        href: "https://drabyancaaires.com.br"
+        href: "https://drabyancaaires.com.br",
+        trackEvent: "clique_site"
       },
       {
         active: true,
@@ -375,7 +453,8 @@
         title: "Curso em São Luís",
         desc: "<strong>Apenas 3 dias, de 25 a 27 de setembro.</strong> Vagas limitadas para a técnica exclusiva Dermo Strill®, direto de quem criou o método.",
         cta: "Garantir minha vaga",
-        href: "https://wa.me/5598981109411?text=Ol%C3%A1%21%20Tenho%20interesse%20no%20curso%20em%20S%C3%A3o%20Lu%C3%ADs%20(25%2C%2026%20e%2027%20de%20setembro)%20e%20quero%20saber%20mais."
+        href: "https://wa.me/5598981109411?text=Ol%C3%A1%21%20Tenho%20interesse%20no%20curso%20em%20S%C3%A3o%20Lu%C3%ADs%20(25%2C%2026%20e%2027%20de%20setembro)%20e%20quero%20saber%20mais.",
+        trackEvent: "interesse_curso_slz"
       },
       {
         active: true,
@@ -385,7 +464,8 @@
         title: "Curso em Imperatriz",
         desc: "Formação com a Dra. Byanca Aires.",
         cta: "Em breve",
-        href: "#"
+        href: "#",
+        trackEvent: "interesse_curso_itz"
       }
     ];
 
@@ -398,6 +478,12 @@
       a.target = "_blank";
       a.rel = "noopener noreferrer";
       if (l.soon) { a.addEventListener("click", function (e) { e.preventDefault(); }); }
+      if (l.trackEvent && !l.soon) {
+        a.addEventListener("click", function () {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({ event: l.trackEvent, link_title: l.title, link_href: l.href });
+        });
+      }
       a.innerHTML =
         '<span class="link-card-text">' +
           '<h3>' + l.title + '</h3>' +
@@ -422,5 +508,24 @@
     }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
     revealEls.forEach(function (el) { io.observe(el); });
   </script>
+<script>
+(function () {
+  var banner = document.getElementById('cookie-banner');
+  var acceptBtn = document.getElementById('cookie-accept');
+  var rejectBtn = document.getElementById('cookie-reject');
+  if (!banner) return;
+  var consent = localStorage.getItem('cookie_consent');
+  if (!consent) { banner.hidden = false; }
+  acceptBtn.addEventListener('click', function () {
+    localStorage.setItem('cookie_consent', 'accepted');
+    banner.hidden = true;
+    if (typeof loadGTM === 'function') { loadGTM(); }
+  });
+  rejectBtn.addEventListener('click', function () {
+    localStorage.setItem('cookie_consent', 'rejected');
+    banner.hidden = true;
+  });
+})();
+</script>
 </body>
 </html>
