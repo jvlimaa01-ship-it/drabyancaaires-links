@@ -466,14 +466,14 @@ function loadGTM(){
       },
       {
         active: true,
-        soon: true,
         photo: "img/bg/bg-curso-slz.jpg",
-        badge: "REALIZADO",
+        badge: "28–30 MAIO",
         title: "Curso em São Luís",
-        desc: "<strong>Realizado de 25 a 27 de setembro.</strong> Obrigada a todas as participantes! Acompanhe o Instagram para as próximas turmas.",
-        cta: "Curso já realizado",
-        href: "https://wa.me/5598981109411?text=Ol%C3%A1%21%20Tenho%20interesse%20no%20curso%20em%20S%C3%A3o%20Lu%C3%ADs%20(25%2C%2026%20e%2027%20de%20setembro)%20e%20quero%20saber%20mais.",
-        trackEvent: "interesse_curso_slz"
+        desc: "<strong>28, 29 e 30 de maio de 2027</strong>, na sala de cursos da clínica. Entre na lista de espera e receba primeiro as condições da turma.",
+        cta: "Entrar na lista de espera",
+        href: "https://wa.me/5598981109411?text=Ol%C3%A1%21%20Quero%20entrar%20na%20lista%20de%20espera%20do%20curso%20em%20S%C3%A3o%20Lu%C3%ADs%20(28%2C%2029%20e%2030%20de%20maio%20de%202027).",
+        showUntil: "2027-05-31",
+        trackEvent: "interesse_curso_slz_2027"
       },
       {
         active: true,
@@ -489,7 +489,7 @@ function loadGTM(){
     ];
 
     var container = document.getElementById("links");
-    LINKS.filter(function (l) { return l.active; }).forEach(function (l, i) {
+    LINKS.filter(function (l) { return l.active && (!l.showUntil || new Date() <= new Date(l.showUntil + "T23:59:59-03:00")); }).forEach(function (l, i) {
       var a = document.createElement("a");
       a.className = "link-card reveal" + (l.soon ? " is-soon" : "");
       a.style.transitionDelay = (i * 0.08) + "s";
